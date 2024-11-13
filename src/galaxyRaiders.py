@@ -5,6 +5,15 @@ def player_controller(screen, playerX, playerY):
         player_image = pygame.image.load('space-invaders.png')
         screen.blit(player_image, (playerX, playerY))
 
+class Enemy():
+
+    def __init__(self, enemyX, enemyY, enemyX_change, enemyY_change):
+        self.image = pygame.image.load('ufo.png')
+        self.enemyX = 370
+        self.enemyY = 480
+        self.enemyX_change = 0  
+        self.enemyY_change = 0
+
 
 
 def main():
