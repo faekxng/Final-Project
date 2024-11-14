@@ -7,12 +7,15 @@ def player_controller(screen, playerX, playerY):
 
 class Enemy():
 
-    def __init__(self, enemyX, enemyY, enemyX_change, enemyY_change):
+    def __init__(self, enemyX = 370, enemyY = 50, enemyX_change = 0, enemyY_change = 0):
+        self.enemyX = enemyX
+        self.enemyY = enemyY
+        self.enemyX_change = enemyX_change 
+        self.enemyY_change = enemyY_change
+    
+    def draw_enemy(self, enemyX, enemyY):
         self.image = pygame.image.load('ufo.png')
-        self.enemyX = 370
-        self.enemyY = 480
-        self.enemyX_change = 0  
-        self.enemyY_change = 0
+        screen.blit(self.image, (enemyX, enemyY))
 
 
 
@@ -26,6 +29,7 @@ def main():
     playerY = 480
     playerX_change = 0
     playerY_change = 0
+    enemy_called = Enemy(resolution)
     running = True
     while running:
         for event in pygame.event.get():
@@ -49,6 +53,7 @@ def main():
         screen.fill (black)
         playerX += playerX_change
         player_controller(screen, playerX, playerY)
+        enemy_called(screen)
         pygame.display.update()
     pygame.quit()
 
