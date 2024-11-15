@@ -53,7 +53,7 @@ def main():
         screen.fill (black)
         playerX += playerX_change
         player_controller(screen, playerX, playerY)
-        enemy_called(screen)
+        enemy_called()
         pygame.display.update()
     pygame.quit()
 
