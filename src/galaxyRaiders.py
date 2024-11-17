@@ -25,6 +25,7 @@ def main():
     pygame.display.set_caption("Galaxy Raiders")
     resolution = (800, 600)
     screen = pygame.display.set_mode((resolution))
+    background = pygame.image.load('spaceBackground.jpg')
     playerX = 370
     playerY = 480
     playerX_change = 0
@@ -38,9 +39,9 @@ def main():
     #if keystroke is pressed, check if left or right and move player
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
-                playerX_change = -0.3
+                playerX_change = -3
             if event.key == pygame.K_RIGHT:
-                playerX_change = 0.3
+                playerX_change = 3
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                 playerX_change = 0
@@ -51,6 +52,7 @@ def main():
     #render
         black = pygame.Color(0,0,0)
         screen.fill (black)
+        screen.blit(background, (0,0))
         playerX += playerX_change
         player_controller(screen, playerX, playerY)
         enemy_called()
