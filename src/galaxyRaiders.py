@@ -18,7 +18,8 @@ def bullet(screen, bulletY):
     bullet_image = pygame.image.load('paintball.png')
     bullet_state = "ready"
 
-def fire_bullet(bullet_state, playerX, playerY):
+def fire_bullet(bullet_state, playerX, playerY):  
+
     bullet_state = "fire"
     screen.blit(bullet_image, (playerX + 16, playerY + 10))
 
@@ -52,7 +53,7 @@ def main():
 #enemy
     enemyX = random.randint(0,800)
     enemyY = random.randint(50,150)
-    enemyX_change = 0
+    enemyX_change = 0.3 
     enemyY_change = 40
 #bullet
     bulletY = 480
@@ -80,10 +81,10 @@ def main():
         elif playerX >= 736:
             playerX = 736
         if enemyX <= 0:
-            enemyX_chnage = 0.3
+            enemyX_change = 0.2
             enemyY += enemyY_change
         elif enemyX >= 736:
-            enemyX_chnage = -0.3
+            enemyX_change = -0.2
             enemyY += enemyY_change
     #render
         black = pygame.Color(0,0,0)
