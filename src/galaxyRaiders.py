@@ -13,29 +13,14 @@ def enemy(screen, enemyX, enemyY):
     screen.blit(enemy_image, (enemyX, enemyY))
 
 
-def bullet(screen, bulletY):
-
+def fire_bullet(screen, playerX, playerY):  
+    
+    global bullet_state
     bullet_image = pygame.image.load('paintball.png')
-    bullet_state = "ready"
-
-def fire_bullet(bullet_state, playerX, playerY):  
-
     bullet_state = "fire"
     screen.blit(bullet_image, (playerX + 16, playerY + 10))
 
-"""       
-class Enemy():
 
-    def __init__(self, enemyX = 370, enemyY = 50, enemyX_change = 0, enemyY_change = 0):
-        self.enemyX = enemyX
-        self.enemyY = enemyY
-        self.enemyX_change = enemyX_change 
-        self.enemyY_change = enemyY_change
-    
-    def draw_enemy(self, enemyX, enemyY):
-        self.image = pygame.image.load('ufo.png')
-        screen.blit(self.image, (enemyX, enemyY))
-"""
 
 
 def main():
@@ -57,7 +42,10 @@ def main():
     enemyY_change = 40
 #bullet
     bulletY = 480
-    bullety_change = 40
+    bulletX = 370
+    bulletY_change = 10
+    bulletX_change = 0
+    bullet_state = "ready"
     #enemy_called = Enemy()
     running = True
     while running:
@@ -65,16 +53,16 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
     #if keystroke is pressed, check if left or right and move player
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_LEFT:
-                playerX_change = -.3
-            if event.key == pygame.K_RIGHT:
-                playerX_change = .3
-            if event.type == pygame.K_SPACE:
-                fire_bullet()
-        if event.type == pygame.KEYUP:
-            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
-                playerX_change = 0
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    playerX_change = -.3
+                if event.key == pygame.K_RIGHT:
+                    playerX_change = .3
+                if event.key == pygame.K_SPACE:
+                    fire_bullet(playerX, bulletY)
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+                    playerX_change = 0
     #boundaries for player and enemies
         if playerX <= 0:
             playerX = 0
@@ -86,6 +74,10 @@ def main():
         elif enemyX >= 736:
             enemyX_change = -0.2
             enemyY += enemyY_change
+    #bullet movement
+        if bullet_state is "fire":
+            fire_bullet(playerX, bulletY)
+            bulletY -= bulletY_change
     #render
         black = pygame.Color(0,0,0)
         screen.fill (black)
