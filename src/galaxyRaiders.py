@@ -55,6 +55,7 @@ def main():
 
 #bullet
     global bullet_state
+    bullet_hit_box = pygame.Rect(bulletX, bulletY, bulletX + 32, bulletY - 32)
     bulletX = 0
     bulletY = 480
     bulletY_change = .5
@@ -102,15 +103,11 @@ def main():
             bulletY -= bulletY_change
 
     #collision and game over
-        collide = pygame.Rect.colliderect(player_hit_box, enemy_hit_box)
-        """
-        if collide:
-            return True
-        else:
-            return False
-        if collide == True:
-            game_over(screen)
-        """
+        if bullet_hit_box.colliderect(enemy_hit_box):
+            bulletY = 480
+            bullet_state = "ready"
+            enemyX = random.randint(0,800)
+            enemyY = random.randint(50,150)
 
     #render
         playerX += playerX_change
