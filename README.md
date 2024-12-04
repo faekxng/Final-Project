@@ -1,7 +1,7 @@
 # Galaxy Raiders
 
 ## Demo
-Demo Video: <>
+Demo Video: <https://www.youtube.com/watch?v=f7skiqgxoWE>
 
 ## GitHub Repository
 GitHub Repo: <https://github.com/faekxng/Final-Project>
