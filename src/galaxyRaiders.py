@@ -7,10 +7,9 @@ def player_controller(screen, x, y):
     screen.blit(player_image, (x, y))
     
 
-def enemy(screen, x, y):
+def enemy(screen, x, y, i):
 
-    enemy_image = pygame.image.load('ufo.png')
-    screen.blit(enemy_image, (x, y))
+    screen.blit(enemy_image[i], (x, y))
     
 
 def fire_bullet(screen, x, y):  
@@ -47,15 +46,24 @@ def main():
     player_hit_box = pygame.Rect(playerX, playerY,  playerX + 64, playerY - 64)
 
 #enemy
-    enemyX = random.randint(0,800)
-    enemyY = random.randint(50,150)
-    enemyX_change = 0.5
-    enemyY_change = 40
-    enemy_hit_box = pygame.Rect(enemyX, enemyY, enemyX + 64, enemyY - 64)
+    enemy_image = []
+    enemyX = []
+    enemyY = []
+    enemyX_change = [] 
+    enemyY_change = []
+    enemy_hit_box = []
+    num_of_enemies = 6
+
+    for i in range(num_of_enemies):
+        enemy_image.append(pygame.image.load('ufo.png')) 
+        enemyX.append(random.randint(0,735)) 
+        enemyY.append(random.randint(50,150)) 
+        enemyX_change.append(0.5) 
+        enemyY_change.append(40) 
+        enemy_hit_box.append(pygame.Rect(enemyX, enemyY, enemyX + 64, enemyY - 64)) 
 
 #bullet
     global bullet_state
-    bullet_hit_box = pygame.Rect(bulletX, bulletY, bulletX + 32, bulletY - 32)
     bulletX = 0
     bulletY = 480
     bulletY_change = .5
@@ -80,20 +88,32 @@ def main():
                 if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                     playerX_change = 0
 
+        screen.blit(background, (0,0))
+
     #boundaries for player and enemies
         if playerX <= 0:
             playerX = 0
         elif playerX >= 736:
             playerX = 736
-        if enemyX <= 0:
-            enemyX_change = 0.2
-            enemyY += enemyY_change
-        elif enemyX >= 736:
-            enemyX_change = -0.2
-            enemyY += enemyY_change
 
-        screen.blit(background, (0,0))
+        for i in range(num_of_enemies):
+            enemyX[i] += enemyX_change[i]
+            if enemyX[i] <= 0:
+                enemyX_change[i] = 0.2
+                enemyY[i] += enemyY_change[i]
+            elif enemyX[i] >= 736:
+                enemyX_change[i] = -0.2
+                enemyY[i] += enemyY_change[i]
+            bullet_hit_box = pygame.Rect(bulletX, bulletY, bulletX + 32, bulletY - 32)
+            if bullet_hit_box.colliderect(enemy_hit_box[i]):
+                bulletY = 480
+                bullet_state = "ready"
+                enemyX[i] = random.randint(0,735)
+                enemyY[i] = random.randint(50,150)
 
+            enemy(screen, enemyX[i], enemyY[i], i)
+
+        
     #bullet movement
         if bulletY <= 0:
             bulletY = 480
@@ -103,17 +123,17 @@ def main():
             bulletY -= bulletY_change
 
     #collision and game over
-        if bullet_hit_box.colliderect(enemy_hit_box):
-            bulletY = 480
-            bullet_state = "ready"
-            enemyX = random.randint(0,800)
-            enemyY = random.randint(50,150)
+
+
+        if enemy_hit_box.colliderect(player_hit_box):
+            return True
+
+        if enemy_hit_box.colliderect(player_hit_box) = True:
+            game_over(screen)
 
     #render
         playerX += playerX_change
-        enemyX += enemyX_change
         player_controller(screen, playerX, playerY)
-        enemy(screen, enemyX, enemyY)
         pygame.display.update()
     pygame.quit()
 
