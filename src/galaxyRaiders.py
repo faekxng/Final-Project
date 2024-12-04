@@ -36,6 +36,8 @@ def main():
     resolution = (800, 600)
     screen = pygame.display.set_mode((resolution))
     background = pygame.image.load('spaceBackground.jpg')
+    black = pygame.Color(0,0,0)
+    screen.fill (black)
 
 #player
     playerX = 370
@@ -47,14 +49,15 @@ def main():
 #enemy
     enemyX = random.randint(0,800)
     enemyY = random.randint(50,150)
-    enemyX_change = 0.3 
+    enemyX_change = 0.5
     enemyY_change = 40
     enemy_hit_box = pygame.Rect(enemyX, enemyY, enemyX + 64, enemyY - 64)
 
 #bullet
     global bullet_state
-    bulletY = 380
-    bulletY_change = 10
+    bulletX = 0
+    bulletY = 480
+    bulletY_change = .5
     bulletX_change = 0
     bullet_state = "ready"
 
@@ -71,7 +74,7 @@ def main():
                     playerX_change = .3
                 if event.key == pygame.K_SPACE and bullet_state == "ready":
                     bulletX = playerX
-                    fire_bullet(bulletX, bulletY)
+                    fire_bullet(screen, bulletX, bulletY)
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                     playerX_change = 0
@@ -88,12 +91,14 @@ def main():
             enemyX_change = -0.2
             enemyY += enemyY_change
 
+        screen.blit(background, (0,0))
+
     #bullet movement
         if bulletY <= 0:
-            bulletY = 380
+            bulletY = 480
             bullet_state = "ready"
         if bullet_state == "fire":
-            fire_bullet(bulletX, bulletY)
+            fire_bullet(screen, bulletX, bulletY)
             bulletY -= bulletY_change
 
     #collision and game over
@@ -108,9 +113,6 @@ def main():
         """
 
     #render
-        black = pygame.Color(0,0,0)
-        screen.fill (black)
-        screen.blit(background, (0,0))
         playerX += playerX_change
         enemyX += enemyX_change
         player_controller(screen, playerX, playerY)
