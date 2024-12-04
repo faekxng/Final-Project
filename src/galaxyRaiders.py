@@ -71,13 +71,6 @@ def main():
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                     playerX_change = 0
-    #collision
-            collide = pygame.Rect.colliderect(player_hit_box, enemy_hit_box)
-            if collide:
-                gameOver = True
-                return gameOver
-            if gameOver = True:
-                game_over()
     #boundaries for player and enemies
         if playerX <= 0:
             playerX = 0
@@ -96,6 +89,13 @@ def main():
         if bullet_state == "fire":
             fire_bullet(bulletX, bulletY)
             bulletY -= bulletY_change
+    #collision and game over
+        collide = pygame.Rect.colliderect(player_hit_box, enemy_hit_box)
+        if collide:
+            gameOver = True
+            return gameOver
+        if gameOver = True:
+            game_over()
     #render
         black = pygame.Color(0,0,0)
         screen.fill (black)
